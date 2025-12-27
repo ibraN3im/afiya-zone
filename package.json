@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "server": "cd server && npm run dev",
     "client": "npm run dev",
     "start:all": "concurrently \"npm run server\" \"npm run client\""
