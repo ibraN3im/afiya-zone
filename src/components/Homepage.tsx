@@ -1,12 +1,9 @@
 import { useApp } from '../App';
 import { Button } from './ui/button';
-import { Card, CardContent, CardFooter } from './ui/card';
-import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { toast } from 'sonner';
 import { productsAPI } from '../services/api';
 import { Star, Leaf, Heart, Shield, ArrowRight, ShoppingCart } from 'lucide-react';
-import { features } from 'process';
 import { useEffect, useState } from 'react';
 
 const translations = {
@@ -167,7 +164,7 @@ export function Homepage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   size="sm"
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 md:px-8 md:py-3"
+                  className="bg-green-600 hover:bg-green-700 text-white ml-2 px-3 py-3 md:px-8 md:py-3"
                   onClick={() => setCurrentPage('shop')}
                 >
                   {t.shopNow}
@@ -221,7 +218,7 @@ export function Homepage() {
                 </div>
 
                 <div className="product-info-home">
-                  <div className="p-6">
+                  <div className="p-2">
                     <h3
                       className="product-title"
                       onClick={() => viewProduct(product)}

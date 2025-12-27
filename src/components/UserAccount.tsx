@@ -439,7 +439,15 @@ export function UserAccount() {
 
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem('authToken');
+    // Clear stored auth data
+    try {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+    } catch (e) {
+      // ignore
+    }
+    // Inform API helper to clear any auth state
+    try { authAPI.logout(); } catch (e) { }
     setCurrentPage('home');
     toast.success('Logged out successfully');
   };
@@ -689,17 +697,17 @@ export function UserAccount() {
                         }}
                         className="border-green-100 order-history order-border"
                       >
-                        <CardContent className="p-6">
+                        <CardContent className="p-2">
                           <div className="flex items-center justify-between mb-4">
                             <div>
-                              <h3 className="text-green-800">{t.orderNumber} {order.orderNumber || order.id}</h3>
+                              <h5 className="text-green-800">{t.orderNumber} {order.orderNumber || order.id}</h5>
                               <p className="text-gray-600 text-sm">
-                                {new Date(order.createdAt || order.date).toLocaleDateString(language === 'ar' ? 'ar-SA' : 'en-US')}
+                                {new Date(order.createdAt || order.date).toLocaleDateString('en-US')}
                               </p>
                             </div>
                             <div className="text-right">
                               {getStatusBadge(order.status)}
-                              <p className="text-lg text-green-700 mt-1">AED {order.total.toFixed(2)}</p>
+                              <p className="text-green-700 mt-1">AED {order.total.toFixed(2)}</p>
                             </div>
                           </div>
 
@@ -883,42 +891,42 @@ export function UserAccount() {
 
                 {/* Order Items */}
                 <div className="mb-6">
-                  <h4 className="text-md font-semibold text-gray-900 mb-4">Order Items</h4>
+                  <h6 className="text-md font-semibold text-gray-900 mb-4">Order Items</h6>
                   <div className="border border-gray-200 rounded-lg overflow-hidden table-view">
-                    <table className="w-full">
+                    <table className="order-info-t">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Product</th>
-                          <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Quantity</th>
-                          <th className="px-4 py-3 text-right text-sm font-medium text-gray-900">Price</th>
-                          <th className="px-4 py-3 text-right text-sm font-medium text-gray-900">Total</th>
+                          <th className="py-3 text-left text-gray-900">Product</th>
+                          <th className="py-3 text-center text-gray-900">Quantity</th>
+                          <th className="py-3 text-center text-gray-900">Price</th>
+                          <th className="py-3 text-center text-gray-900">Total</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200">
+                      <tbody>
                         {selectedOrder.items?.map((item: any, index: number) => (
                           <tr key={index}>
-                            <td className="px-4 py-4">
+                            <td className="py-4">
                               <div className="flex items-center">
                                 {item.image && (
                                   <img
                                     src={item.image}
                                     alt={item.name?.[language] || item.name?.en || 'Product'}
-                                    className="w-12 h-12 object-cover rounded border border-gray-200 mr-3"
+                                    className="w-12 h-12 object-cover rounded border border-gray-200 mr-1"
                                   />
                                 )}
                                 <div>
-                                  <p className="font-medium text-gray-900">
+                                  <p className="font-11">
                                     {item.name?.[language] || item.name?.en || 'Product'}
                                   </p>
                                   {item.category && (
-                                    <p className="text-sm text-gray-500">{item.category}</p>
+                                    <p className="font-11">{item.category}</p>
                                   )}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-4 py-4 text-center">{item.quantity}</td>
-                            <td className="px-4 py-4 text-right">AED {item.price?.toFixed(2)}</td>
-                            <td className="px-4 py-4 text-right font-medium">
+                            <td className="py-4 text-center">{item.quantity}</td>
+                            <td className="py-4 text-right">AED {item.price?.toFixed(2)}</td>
+                            <td className="py-4 text-right">
                               AED {(item.price * item.quantity).toFixed(2)}
                             </td>
                           </tr>
@@ -926,10 +934,10 @@ export function UserAccount() {
                       </tbody>
                       <tfoot className="bg-gray-50">
                         <tr>
-                          <th colSpan={3} className="px-4 py-3 text-right text-sm font-medium text-gray-900">
+                          <th colSpan={3} className="px-4 py-3 text-left text-sm font-medium text-green-600">
                             Total:
                           </th>
-                          <th className="px-4 py-3 text-right text-sm font-medium text-green-600">
+                          <th className="px-4 py-3 text-right text-sm text-green-600">
                             AED {selectedOrder.total?.toFixed(2)}
                           </th>
                         </tr>
@@ -941,7 +949,7 @@ export function UserAccount() {
                 {/* Order Timeline */}
                 <div>
 
-                  <h4 className="text-md font-semibold text-gray-900 mb-4">Order Timeline</h4>
+                  <h6 className="text-md font-semibold text-gray-900 mb-4">Order Timeline</h6>
                   <div className="space-y-4">
                     <div className="flex items-start space-x-3">
                       <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full mt-2"></div>

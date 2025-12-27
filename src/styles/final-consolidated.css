@@ -210,6 +210,17 @@ h6 {
     font-size: 14px;
 }
 
+.divide-y {
+    overflow: auto;
+    left: 0;
+    top: 130px;
+    position: absolute;
+    max-height: 500px;
+    width: 250px;
+    padding: 5px 0px 5px 5px;
+    background-color: hsl(0deg 0% 99.12%);
+}
+
 
 /* ==================== LINKS ==================== */
 a {
@@ -281,6 +292,7 @@ a:hover {
 .product-grid-item {
     display: flex;
     background: white;
+    border: 1px solid var(--color-gray-300);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     overflow: hidden;
@@ -825,9 +837,6 @@ a:hover {
     padding: 1.25rem;
 }
 
-.p-6 {
-    padding: 1.5rem;
-}
 
 .py-1 {
     padding-top: 0.25rem;
@@ -1031,6 +1040,10 @@ a:hover {
     gap: 1.5rem;
 }
 
+.font-11 {
+    font-size: 11px;
+}
+
 .flex-wrap {
     flex-wrap: wrap;
 }
@@ -1199,8 +1212,7 @@ a:hover {
     position: absolute;
     top: 8px;
     left: 8px;
-    padding: 2px 6px;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
     font-size: 0.75rem;
     font-weight: bold;
     background-color: #ff9900;
@@ -1330,6 +1342,10 @@ a:hover {
     padding: 6px;
 }
 
+.list-view.flex.flex-row {
+    border: 1px solid #80808057;
+}
+
 @media (min-width: 550px) {
     .list-view {
         display: none;
@@ -1372,6 +1388,7 @@ a:hover {
 }
 
 .table-view {
+    overflow: auto;
     display: flex;
     font-size: small;
 }
@@ -1426,16 +1443,18 @@ header .container button {
     padding-top: 50px;
     margin-top: 45px;
     background-color: azure;
-    width: 90%;
+    width: 40%;
 }
 
 .bottom-nav {
+    position: sticky;
     color: yellow;
     background-color: #00785366;
     box-shadow: 0px -1px 6px 0px yellowgreen;
     display: flex;
-    height: 30px;
+    height: 45px;
     width: 100%;
+    bottom: 0;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
@@ -1460,10 +1479,12 @@ header .container button {
 }
 
 /* ==================== FOOTER STYLES ==================== */
-.footer {
-    background: var(--warm-gray);
-    padding: 2rem 0;
-    margin-top: 3rem;
+
+footer {
+    background-color: hsl(140deg 47.82% 25.66%);
+    color: white;
+    padding: 25px;
+
 }
 
 .footer-container {
@@ -1528,9 +1549,13 @@ header .container button {
 
 .order-details {
     background-color: azure;
-    margin: auto;
-    margin-top: 38px;
+    margin: 0px;
+    height: fit-content;
     padding: 16px;
+}
+
+.order-info-t thead {
+    font-size: 11px
 }
 
 .order-details-close {
@@ -1679,6 +1704,7 @@ header button {
 }
 
 .afiya-title {
+    font-family: emoji;
     letter-spacing: -1px;
     color: var(--color-green-600);
     margin-bottom: 0;
@@ -1849,10 +1875,15 @@ label {
 }
 
 .cart-cart {
-    background-color: azure;
+    background-color: #9e9e9e14;
     width: fit-content;
-    margin: auto;
-    padding: 8px;
+    margin: 0px auto 4px;
+    padding: 6px;
+    width: 96%;
+}
+
+.cart-cart input {
+    background-color: #ffffffab;
 }
 
 .cart-summary {
@@ -1861,6 +1892,10 @@ label {
 
 .shopping-title {
     font-size: 16px;
+}
+
+.shop-search-input {
+    box-shadow: none;
 }
 
 .shopping-cart {
@@ -1898,6 +1933,7 @@ label {
 }
 
 .hero-image {
+    padding: 4px 4px 0px;
     background-size: contain;
     background-position: center;
     background-image: url(https://researchoutreach.org/wp-content/uploads/2023/07/Rad-97_3Q_left_4-up_OUS_11.16.17-1024x683.png);
@@ -1970,9 +2006,7 @@ label {
         padding: 6px 0px 0px 6px;
     }
 
-    .card-content {
-        padding: 6px;
-    }
+
 
     .bg-card {
         gap: 0px;
@@ -1981,6 +2015,7 @@ label {
     .logo {
         height: 36px;
         width: 36px;
+        margin-right: 1px;
         margin-right: 1px;
     }
 

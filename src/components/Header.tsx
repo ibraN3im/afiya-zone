@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useApp } from '../App';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -47,7 +46,7 @@ const translations: Record<'en' | 'ar', Translation> = {
 };
 
 export function Header() {
-  const { currentPage, setCurrentPage, language, user, cart, setShowLoginModal, setLanguage } = useApp();
+  const { setCurrentPage, language, user, cart, setShowLoginModal, setLanguage } = useApp();
   const t = translations[language];
 
   // Calculate cart items count
@@ -55,17 +54,17 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-green-100/95 backdrop-blur-sm border-b border-green-100 shadow-sm">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer gap-1"
             onClick={() => setCurrentPage('home')}
           >
             <img
-              src="/src/logo/afiya-logo.jpg"
+              src="https://i.imgur.com/HDmpMTk.jpeg"
               alt="Afiya Zone Logo"
-              className="w-10 h-10 rounded-full mr-3 object-contain logo "
+              className="w-5 h-5 rounded-full object-contain logo "
             />
             <h1 className="text-xl text-green-600 tracking-wide afiya-title">Afiya Zone</h1>
           </div>

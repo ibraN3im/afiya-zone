@@ -1,6 +1,6 @@
 import { useApp } from '../App';
 import { Separator } from './ui/separator';
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Youtube, Heart, Leaf } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
 
 const translations = {
   en: {
@@ -106,33 +106,19 @@ export function Footer() {
 
   const socialLinks = [
     { icon: Instagram, href: '#', color: 'hover:text-pink-500' },
-    { icon: Facebook, href: '#', color: 'hover:text-blue-600' },
+    { icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61585363760414', color: 'hover:text-blue-600' },
     { icon: Twitter, href: '#', color: 'hover:text-blue-400' },
     { icon: Youtube, href: '#', color: 'hover:text-red-500' },
   ];
 
   return (
-    <footer >
+    <footer className='mt-12'>
       <div className="container mx-auto">
         {/* Main Footer Content */}
         <div className="grid lg:grid-cols-5 gap-8 mb-12">
           {/* Company Info & Newsletter */}
           <div className="lg:col-span-2">
             <div className="mb-8">
-              {/* Logo */}
-              {/* <div className="flex items-center mb-4">
-                <div className="w-12 h-12 flex items-center justify-center mr-3">
-                  <img 
-                    src="/src/logo/afiya-logo.jpg" 
-                    alt="Afiya Zone Logo" 
-                    className="w-8 h-8 object-contain"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-2xl tracking-wide">Afiya Zone</h3>
-                  <p className="text-green-200 text-sm">{t.wellness}</p>
-                </div>
-              </div> */}
 
               {/* Contact Info */}
               <div className="space-y-3 mb-8">

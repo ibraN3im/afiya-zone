@@ -10,6 +10,7 @@ import { AboutUs } from './components/AboutUs';
 import { Contact } from './components/Contact';
 import { PasswordReset } from './components/PasswordReset';
 import './styles/final-consolidated.css';
+import { authAPI } from './services/api';
 import { LoginModal } from './components/LoginModal';
 import { Footer } from './components/Footer';
 import { AdminDashboard } from './components/AdminDashboard';
@@ -41,8 +42,16 @@ const AppContext = createContext<AppContextType>({} as AppContextType);
 export const useApp = () => useContext(AppContext);
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [language, setLanguage] = useState<'en' | 'ar'>('en');
+  const [currentPage, setCurrentPage] = useState(() => {
+    // Restore current page from localStorage on initial load
+    const savedPage = localStorage.getItem('currentPage');
+    return savedPage || 'home';
+  });
+  const [language, setLanguage] = useState<'en' | 'ar'>(() => {
+    // Restore language from localStorage on initial load
+    const savedLanguage = localStorage.getItem('language') as 'en' | 'ar' | null;
+    return savedLanguage || 'en';
+  });
   const [user, setUser] = useState(null);
   const [cart, setCart] = useState<any[]>([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -57,6 +66,43 @@ export default function App() {
     if (resetTokenParam) {
       setResetToken(resetTokenParam);
       setCurrentPage('reset-password');
+    }
+  }, []);
+
+  // Save current page to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('currentPage', currentPage);
+  }, [currentPage]);
+
+  // Save language to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
+
+  // Restore user from localStorage / token on app load
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    const token = localStorage.getItem('authToken');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        // ignore parse errors
+      }
+    }
+
+    if (token) {
+      // Try to refresh profile using token; if it fails, clear auth
+      authAPI.getProfile()
+        .then((data: any) => {
+          // `getProfile` returns user data
+          setUser(data);
+        })
+        .catch(() => {
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
+          setUser(null);
+        });
     }
   }, []);
 

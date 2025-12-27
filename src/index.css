@@ -249,11 +249,7 @@
     margin-top: 20px;
   }
 
-  footer {
-    background-color: hsl(140deg 47.82% 25.66%);
-    color: white;
-    padding: 25px;
-  }
+
 
 
   sub,
@@ -272,13 +268,6 @@
     top: -.5em;
   }
 
-  .divide-y {
-    position: sticky;
-    max-height: 600px;
-    margin-top: 885px;
-    padding: 5px;
-    background-color: hsl(0deg 0% 99.12%);
-  }
 
 
   table {
@@ -1736,7 +1725,7 @@
   }
 
   .p-6 {
-    padding: calc(var(--spacing) * 6);
+    padding: calc(var(--spacing) * 2);
   }
 
   .p-8 {
@@ -1820,7 +1809,7 @@
   }
 
   .pt-20 {
-    padding-top: calc(var(--spacing) * 10);
+    padding-top: calc(var(--spacing) * 14);
   }
 
   .pr-8 {

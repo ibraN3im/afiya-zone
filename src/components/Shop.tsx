@@ -101,6 +101,11 @@ export function Shop() {
     setViewMode(isMobile ? 'list' : 'grid');
   }, [isMobile]);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // Pagination state
+  const [currentPage, setCurrentPageNum] = useState(1);
+  const itemsPerPage = 25;
+
   // Polling ref to manage interval
   const pollingRef = useRef<number | null>(null);
 
@@ -209,6 +214,11 @@ export function Shop() {
     }
   });
 
+  // Calculate pagination
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProducts = sortedProducts.slice(startIndex, startIndex + itemsPerPage);
+
   const addToCart = (product: any) => {
     const existingItem = cart.find(item => item._id === product._id);
     if (existingItem) {
@@ -244,12 +254,14 @@ export function Shop() {
         ? prev.filter(c => c !== category)
         : [...prev, category]
     );
+    setCurrentPageNum(1); // Reset to first page when filters change
   };
 
   const clearFilters = () => {
     setSelectedCategories([]);
     setPriceRange([0, sliderMax]);
     setSearchQuery('');
+    setCurrentPageNum(1); // Reset to first page when filters are cleared
   };
 
   if (loading && products.length === 0) {
@@ -295,8 +307,11 @@ export function Shop() {
             <Input
               placeholder={t.searchProducts}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 border-green-200 focus:border-green-400"
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPageNum(1); // Reset to first page when search changes
+              }}
+              className="shop-search-input"
             />
           </div>
 
@@ -304,7 +319,7 @@ export function Shop() {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-gray-600 f-size-14">
-                {t.showingResults.replace('{count}', sortedProducts.length.toString())}
+                {t.showingResults.replace('{count}', paginatedProducts.length.toString())} ({language === 'en' ? `Page ${currentPage} of ${totalPages}` : `الصفحة ${currentPage} من ${totalPages}`})
               </span>
 
               <div className="flex items-center gap-2 list-view">
@@ -403,6 +418,7 @@ export function Shop() {
                             value={priceRange}
                             onValueChange={(value: number[]) => {
                               setPriceRange(value);
+                              setCurrentPageNum(1); // Reset to first page when price range changes
                             }}
                             max={sliderMax}
                             step={5}
@@ -428,7 +444,10 @@ export function Shop() {
                 )}
               </div>
 
-              <Select value={sortBy} onValueChange={setSortBy}>
+              <Select value={sortBy} onValueChange={(value) => {
+                setSortBy(value);
+                setCurrentPageNum(1); // Reset to first page when sort changes
+              }}>
                 <SelectTrigger className=" select-value focus:border-green-400">
                   <SelectValue placeholder={t.sortBy} />
                 </SelectTrigger>
@@ -460,7 +479,7 @@ export function Shop() {
               </div>
             ) : (
               <div className={viewMode === 'grid' ? 'product-grid-container' : 'space-y-4'}>
-                {sortedProducts.map((product) => (
+                {paginatedProducts.map((product) => (
                   <div
                     key={product._id}
                     className={`product-grid-item ${viewMode === 'list' ? 'list-view flex flex-row' : ''}`}
@@ -636,6 +655,37 @@ export function Shop() {
               </div>
             )}
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center mt-8 mb-4 space-x-2">
+              <button
+                onClick={() => setCurrentPageNum(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className={`px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+              >
+                {language === 'en' ? 'Previous' : 'السابق'}
+              </button>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNum => (
+                <button
+                  key={pageNum}
+                  onClick={() => setCurrentPageNum(pageNum)}
+                  className={`px-3 py-1 rounded ${currentPage === pageNum ? 'bg-green-600 text-white' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                >
+                  {pageNum}
+                </button>
+              ))}
+
+              <button
+                onClick={() => setCurrentPageNum(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+              >
+                {language === 'en' ? 'Next' : 'التالي'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

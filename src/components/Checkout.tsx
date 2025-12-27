@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Separator } from './ui/separator';
-import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { ArrowLeft, CreditCard, Truck, Shield, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
@@ -53,8 +52,9 @@ const translations = {
     free: 'Free',
     items: 'items',
     estimatedDelivery: 'Estimated Delivery',
-    saudi: 'Saudi Arabia',
     uae: 'United Arab Emirates',
+    sudan: 'Sudan',
+    saudi: 'Saudi Arabia',
     kuwait: 'Kuwait',
     qatar: 'Qatar',
     bahrain: 'Bahrain',
@@ -99,8 +99,9 @@ const translations = {
     free: 'مجاني',
     items: 'عناصر',
     estimatedDelivery: 'التوصيل المتوقع',
-    saudi: 'المملكة العربية السعودية',
     uae: 'الإمارات العربية المتحدة',
+    sudan: 'السودان',
+    saudi: 'المملكة العربية السعودية',
     kuwait: 'الكويت',
     qatar: 'قطر',
     bahrain: 'البحرين',
@@ -111,7 +112,6 @@ const translations = {
 export function Checkout() {
   const { language, setCurrentPage, cart, setCart, user } = useApp();
   const t = translations[language];
-
   const [isProcessing, setIsProcessing] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState<'standard' | 'express' | 'overnight'>('standard');
   const [paymentMethod, setPaymentMethod] = useState('credit');
@@ -126,7 +126,7 @@ export function Checkout() {
     city: '',
     state: '',
     zipCode: '',
-    country: 'saudi',
+    country: 'uae',
   });
 
   const [billingForm, setBillingForm] = useState({
@@ -138,7 +138,7 @@ export function Checkout() {
     city: '',
     state: '',
     zipCode: '',
-    country: 'saudi',
+    country: 'uae',
   });
 
   const [paymentForm, setPaymentForm] = useState({
@@ -175,8 +175,9 @@ export function Checkout() {
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   const countries = [
-    { key: 'saudi', label: t.saudi },
     { key: 'uae', label: t.uae },
+    { key: 'sudan', label: t.sudan },
+    { key: 'saudi', label: t.saudi },
     { key: 'kuwait', label: t.kuwait },
     { key: 'qatar', label: t.qatar },
     { key: 'bahrain', label: t.bahrain },
@@ -246,10 +247,11 @@ export function Checkout() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto">
         {/* Header */}
-        <div className="flex items-center mb-8">
+        <div className="flex flex-wrap items-center mb-8">
           <Button
+            size={"sm"}
             variant="ghost"
             onClick={() => setCurrentPage('cart')}
             className="mr-4 text-green-600 hover:text-green-700"
@@ -257,7 +259,7 @@ export function Checkout() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             {t.backToCart}
           </Button>
-          <h1 className="text-3xl text-green-800">{t.checkout}</h1>
+          <h6 className="shopping-title text-green-800">{t.checkout}</h6>
           <div className="ml-4 flex items-center text-green-600">
             <Shield className="w-5 h-5 mr-1" />
             <span className="text-sm">{t.secureCheckout}</span>
@@ -269,7 +271,7 @@ export function Checkout() {
             {/* Checkout Form */}
             <div className="lg:col-span-2 space-y-8">
               {/* Shipping Address */}
-              <Card>
+              <Card className='cart-cart'>
                 <CardHeader>
                   <CardTitle className="text-green-800 flex items-center">
                     <Truck className="w-5 h-5 mr-2" />
@@ -380,7 +382,7 @@ export function Checkout() {
               </Card>
 
               {/* Delivery Options */}
-              <Card>
+              <Card className='cart-cart'>
                 <CardHeader>
                   <CardTitle className="text-green-800">{t.deliveryOptions}</CardTitle>
                 </CardHeader>
@@ -411,7 +413,7 @@ export function Checkout() {
               </Card>
 
               {/* Payment Method */}
-              <Card>
+              <Card className='cart-cart'>
                 <CardHeader>
                   <CardTitle className="text-green-800 flex items-center">
                     <CreditCard className="w-5 h-5 mr-2" />
@@ -493,9 +495,9 @@ export function Checkout() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <Card className="sticky top-24">
+              <Card className="sticky top-14">
                 <CardHeader>
-                  <CardTitle className="text-green-800">{t.orderSummary}</CardTitle>
+                  <CardTitle className="cart-summary text-green-800">{t.orderSummary}</CardTitle>
                   <p className="text-gray-600 text-sm">
                     {totalItems} {t.items}
                   </p>
@@ -555,7 +557,7 @@ export function Checkout() {
                   {/* Place Order Button */}
                   <Button
                     type="submit"
-                    size="lg"
+                    size="sm"
                     className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
                     disabled={isProcessing}
                   >
@@ -573,9 +575,9 @@ export function Checkout() {
                   </Button>
 
                   {/* Security Notice */}
-                  <div className="text-center text-xs text-gray-500 mt-4">
+                  <small className="text-center text-xs text-gray-500 mt-4">
                     🔒 Your payment information is secure and encrypted
-                  </div>
+                  </small>
                 </CardContent>
               </Card>
             </div>
