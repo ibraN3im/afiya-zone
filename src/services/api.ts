@@ -1,7 +1,8 @@
 /// <reference types="vite/client" />
 
 // Use environment variable for API_URL, fallback to localhost for development
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://afiya-server-w6vn.onrender.com/api';
 
 // Helper function to get auth token
 const getAuthToken = () => {
